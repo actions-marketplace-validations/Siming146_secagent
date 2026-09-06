@@ -1,0 +1,53 @@
+name: "SecAgent - Autonomous Security Research & Auto-Patch Agent"
+description: "Scan repositories, reduce SAST false positives with DeepSeek, dynamically verify in sandbox, and generate minimal patches."
+author: "Siming146"
+branding:
+  icon: "shield"
+  color: "blue"
+
+inputs:
+  deepseek_api_key:
+    description: "DeepSeek API Key for triage and reasoning patch synthesis"
+    required: true
+  target_path:
+    description: "Path to target directory or repository"
+    required: false
+    default: "."
+  sarif_output:
+    description: "Path to save OASIS SARIF 2.1.0 security report"
+    required: false
+    default: "secagent-results.sarif.json"
+  auto_fix:
+    description: "Whether to run full remediation loop (verify and patch)"
+    required: false
+    default: "false"
+
+outputs:
+  sarif_path:
+    description: "Path of generated SARIF report"
+    value: ${{ inputs.sarif_output }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install SecAgent
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install git+https://github.com/Siming146/secagent.git
+
+    - name: Run SecAgent Audit
+      shell: bash
+      env:
+        DEEPSEEK_API_KEY: ${{ inputs.deepseek_api_key }}
+      run: |
+        if [ "${{ inputs.auto_fix }}" = "true" ]; then
+          secagent fix "${{ inputs.target_path }}" --sarif "${{ inputs.sarif_output }}"
+        else
+          secagent audit "${{ inputs.target_path }}" --sarif "${{ inputs.sarif_output }}"
+        fi
