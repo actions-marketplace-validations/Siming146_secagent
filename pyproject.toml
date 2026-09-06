@@ -52,9 +52,9 @@ dev = [
 secagent = "secagent.cli:app"
 
 [project.urls]
-Homepage = "https://github.com/xiao-si/secagent"
-Repository = "https://github.com/xiao-si/secagent.git"
-Issues = "https://github.com/xiao-si/secagent/issues"
+Homepage = "https://github.com/siming146/secagent"
+Repository = "https://github.com/siming146/secagent.git"
+Issues = "https://github.com/siming146/secagent/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]

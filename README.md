@@ -84,7 +84,7 @@ SecAgent 改变了这一现状：
 ### 1. 安装
 
 ```bash
-git clone https://github.com/your-org/secagent.git
+git clone https://github.com/siming146/secagent.git
 cd secagent
 pip install -e .
 ```
@@ -162,7 +162,7 @@ jobs:
 
       - name: Install SecAgent
         run: |
-          pip install git+https://github.com/your-org/secagent.git
+          pip install git+https://github.com/siming146/secagent.git
 
       - name: Run SecAgent Audit
         env:
