@@ -8,6 +8,14 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
+# Ensure UTF-8 output encoding across Windows and POSIX
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 from secagent import __version__
 from secagent.config import get_settings
 from secagent.git_tools.git_ops import commit_changes, create_and_checkout_branch
@@ -19,7 +27,7 @@ app = typer.Typer(
     help="Autonomous AI Security Agent for Open Source Repositories.",
     add_completion=False,
 )
-console = Console()
+console = Console(legacy_windows=False)
 
 
 @app.command(name="version")

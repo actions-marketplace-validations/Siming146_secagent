@@ -55,17 +55,22 @@ class BanditAnalyzer(BaseAnalyzer):
             if raw_json:
                 data = json.loads(raw_json)
                 results = data.get("results", [])
-                for idx, item in enumerate(results):
+                for item in results:
                     cwe_info = item.get("issue_cwe", {})
                     cwe_str = f"CWE-{cwe_info.get('id')}" if cwe_info and cwe_info.get("id") else None
-
                     rel_file = os.path.relpath(item.get("filename", ""), repo_abs)
+                    norm_path = rel_file.replace("\\", "/").lower()
+                    test_id = item.get("test_id", "UNKNOWN")
+
+                    # Exclude test files and assertion checks
+                    if test_id == "B101" or "/tests/" in norm_path or norm_path.startswith("tests/") or "test_" in os.path.basename(norm_path):
+                        continue
 
                     candidates.append(
                         VulnerabilityCandidate(
-                            id=f"BANDIT-{idx + 1:03d}",
+                            id=f"BANDIT-{len(candidates) + 1:03d}",
                             tool="bandit",
-                            test_id=item.get("test_id", "UNKNOWN"),
+                            test_id=test_id,
                             cwe=cwe_str,
                             severity=item.get("issue_severity", "MEDIUM").upper(),
                             confidence=item.get("issue_confidence", "MEDIUM").upper(),

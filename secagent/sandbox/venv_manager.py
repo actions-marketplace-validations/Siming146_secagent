@@ -23,9 +23,16 @@ class SandboxVenvManager:
         timeout: int = 60,
     ) -> CommandResult:
         """Run pytest in the target repository using the current python executable."""
-        args = test_args or ["tests/"]
+        repo_abs = os.path.abspath(repo_path)
+        if test_args is not None:
+            args = test_args
+        elif os.path.exists(os.path.join(repo_abs, "tests")):
+            args = ["tests/"]
+        else:
+            args = []  # Let pytest auto-discover test_*.py in repo_abs
+
         cmd = [sys.executable, "-m", "pytest", "-q"] + args
-        return self.runner.run(command=cmd, cwd=os.path.abspath(repo_path), timeout=timeout)
+        return self.runner.run(command=cmd, cwd=repo_abs, timeout=timeout)
 
     def execute_reproduction_test(
         self,

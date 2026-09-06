@@ -39,22 +39,36 @@ def apply_patch_to_file(
 
     # Attempt 2: Fallback line-based patch application
     try:
-        lines = original_content.splitlines(keepends=True)
-        # Parse simple single-hunk diff additions and deletions
         diff_lines = diff_text.splitlines()
-        added_lines = [l[1:] + "\n" for l in diff_lines if l.startswith("+") and not l.startswith("+++")]
-        deleted_lines = [l[1:] + "\n" for l in diff_lines if l.startswith("-") and not l.startswith("---")]
+        added_lines = [l[1:] for l in diff_lines if l.startswith("+") and not l.startswith("+++")]
+        deleted_lines = [l[1:] for l in diff_lines if l.startswith("-") and not l.startswith("---")]
 
-        # If simple modification, attempt heuristic replace
-        if added_lines and deleted_lines:
-            content = original_content
+        del_target = "\n".join(deleted_lines).replace("\r\n", "\n")
+        add_target = "\n".join(added_lines).replace("\r\n", "\n")
+        content = original_content.replace("\r\n", "\n")
+
+        if del_target and del_target in content:
+            content = content.replace(del_target, add_target, 1)
+        elif del_target and del_target.strip() in content:
+            content = content.replace(del_target.strip(), add_target.strip(), 1)
+        elif deleted_lines:
             for d in deleted_lines:
-                if d in content:
-                    content = content.replace(d, "".join(added_lines), 1)
+                d_norm = d.replace("\r\n", "\n").strip()
+                if d_norm and d_norm in content:
+                    content = content.replace(d_norm, add_target, 1)
                     break
+        elif added_lines:
+            # Pure addition - anchor to matching context line
+            context_candidates = [l[1:].strip() for l in diff_lines if l.startswith(" ") and l[1:].strip()]
+            for ctx in context_candidates:
+                if ctx in content:
+                    content = content.replace(ctx, ctx + "\n" + "\n".join(added_lines), 1)
+                    break
+
+        if content != original_content:
             with open(full_path, "w", encoding="utf-8") as f:
                 f.write(content)
-            logger.info(f"Applied heuristic patch to {filename}")
+            logger.info(f"Applied fallback patch to {filename}")
             return True
 
     except Exception as exc:
