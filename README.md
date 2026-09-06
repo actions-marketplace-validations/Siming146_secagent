@@ -9,6 +9,8 @@
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
 [![DeepSeek](https://img.shields.io/badge/Powered%20by-DeepSeek--V3%20%7C%20R1-4D6BFE.svg)](https://deepseek.com)
 [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-Native%20Skill-brightgreen.svg)](https://github.com/deepseek-ai/deepseek-harness)
+[![Codex for Open Source](https://img.shields.io/badge/Codex%20for%20Open%20Source-Aligned-orange.svg)](https://openai.com)
+[![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 </div>
@@ -192,13 +194,39 @@ python benchmark/run_benchmark.py
 
 ---
 
-## 🤝 贡献与负责任披露
+## 🌟 与 Codex for Open Source / 开源维护者工作流的深度契合
 
-- **贡献指南**：请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
-- **安全漏洞披露**：如在 SecAgent 本身发现安全缺陷，请通过 GitHub Security Advisory 或私信邮箱联系维护团队，遵循负责任的协同披露原则。
+SecAgent 的核心目标不是制造一个简单的 AI 演示，而是直接解决开源项目核心维护者长期面临的实际负担：
+
+| 维护者核心痛点 | 传统方案的缺陷 | SecAgent 解决方案 (Codex for Open Source 核心工作流) |
+|---|---|---|
+| **持续安全审查 (Security Review)** | 规则型告警产生海量误报，维护者无暇逐一甄别 | 利用 DeepSeek-V3 结合全仓上下文和调用链深度分析，过滤无用告警，仅聚焦高置信度缺陷 |
+| **可达性与漏洞复现 (Validation)** | SAST 发现告警后即停止，无法证明是否真实可利用 | 在受控隔离沙箱中自动合成防御性 Pytest 复现用例，动态验证漏洞是否可达 |
+| **代码修复与补丁编写 (Remediation)** | 维护者需投入大量时间人工分析根因并手写 Patch | 依靠 DeepSeek-R1 的强大推理思维链合成规范的最小化安全补丁 |
+| **回归测试保障 (Regression Testing)** | 担心安全补丁破坏既有业务功能或引入次生缺陷 | 自动在沙箱中执行全套项目原有测试，确保 100% 通过后才生成交付物 |
+| **自动化发布与审查 (PR & Gating)** | 手动提交繁琐，安全报告难与 CI/CD 工具链打通 | 输出标准 OASIS SARIF 2.1.0 报告对接 GitHub Code Scanning，并可全自动创建 PR 供维护者审阅 |
+
+> [!NOTE]
+> 本项目的“**静态线索 ➔ 大模型甄别 ➔ 隔离验证 ➔ 补丁合成 ➔ 回归测试 ➔ 提 PR**”闭环体系与 OpenAI **Codex Security** 工作流高度契合，专为赋能开源生态维护者而打造。
+
+---
+
+## 🗺️ 项目路线图 (Roadmap)
+
+请参阅完整的技术路线图与长期愿景规划：[ROADMAP.md](ROADMAP.md)。
+
+---
+
+## 📜 社区治理与合规规范 (Community & Governance)
+
+- **贡献指南**：[CONTRIBUTING.md](CONTRIBUTING.md)
+- **行为准则**：[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- **安全负责任披露**：[SECURITY.md](SECURITY.md)
+- **版本更新日志**：[CHANGELOG.md](CHANGELOG.md)
 
 ---
 
 ## 📄 开源许可证
 
 本项目基于 [Apache License 2.0](LICENSE) 协议开源。
+
