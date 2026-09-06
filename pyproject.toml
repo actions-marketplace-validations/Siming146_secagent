@@ -1,0 +1,69 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "secagent"
+version = "0.1.0"
+description = "Autonomous AI Security Agent for Open Source Ecosystems powered by DeepSeek & LangGraph"
+readme = "README.md"
+authors = [
+    { name = "Open Source Security Agent Contributors" }
+]
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Bug Tracking",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+keywords = ["security", "ai", "deepseek", "langgraph", "appsec", "vulnerability", "patching", "autofix"]
+
+dependencies = [
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "langgraph>=0.1.0",
+    "langchain-core>=0.2.0",
+    "openai>=1.12.0",
+    "bandit>=1.7.5",
+    "gitpython>=3.1.30",
+    "pytest>=7.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+secagent = "secagent.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/your-org/secagent"
+Repository = "https://github.com/your-org/secagent.git"
+Issues = "https://github.com/your-org/secagent/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["secagent*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
