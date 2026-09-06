@@ -1,4 +1,4 @@
-"""Fixer Agent node: Synthesizes minimal safe patches with DeepSeek-R1 and validates regressions."""
+"""Fixer Agent node: Synthesizes minimal safe patches with DeepSeek-V4-Pro and validates regressions."""
 
 import logging
 import os
@@ -81,14 +81,14 @@ Reproduction Test:
         prompt += f"\nPrevious attempt caused regression test failures:\n{prev_reg_output[:1000]}\nPlease correct the patch to pass tests!"
 
     try:
-        # Use DeepSeek-Reasoner (R1) for high-reasoning patch synthesis
+        # Use DeepSeek-V4-Pro for high-reasoning patch synthesis
         reasoning_trace, response_text = llm.reasoning_completion(
             messages=[
                 {"role": "system", "content": FIXER_SYSTEM_PROMPT},
                 {"role": "user", "content": prompt},
             ]
         )
-        logger.info(f"DeepSeek-R1 reasoning trace:\n{reasoning_trace[:300]}...")
+        logger.info(f"DeepSeek-V4-Pro reasoning trace:\n{reasoning_trace[:300]}...")
 
         patch_data = llm.extract_json(response_text)
         diff = patch_data.get("diff", "")

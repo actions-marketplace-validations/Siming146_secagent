@@ -7,7 +7,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
-[![DeepSeek](https://img.shields.io/badge/Powered%20by-DeepSeek--V3%20%7C%20R1-4D6BFE.svg)](https://deepseek.com)
+[![DeepSeek](https://img.shields.io/badge/Powered%20by-DeepSeek--V4%20(Pro%20%7C%20Flash)-4D6BFE.svg)](https://deepseek.com)
 [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-Native%20Skill-brightgreen.svg)](https://github.com/deepseek-ai/deepseek-harness)
 [![SARIF 2.1.0](https://img.shields.io/badge/SARIF-2.1.0-orange.svg)](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
 [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
@@ -27,9 +27,9 @@
 
 SecAgent 改变了这一现状：
 1. **协同专业 SAST**：以 Bandit/Semgrep 告警作为线索切入，大幅节省全仓 Token 消耗；
-2. **DeepSeek 深度甄别**：结合项目全局架构与调用链，由 **DeepSeek-Chat** / **DeepSeek-Reasoner (R1)** 过滤假阳性（False Positives），锁定可达攻击路径；
+2. **DeepSeek 深度甄别**：结合项目全局架构与调用链，由 **DeepSeek-V4-Flash** / **DeepSeek-V4-Pro** 过滤假阳性（False Positives），锁定可达攻击路径；
 3. **轻量沙箱动态验证**：在受控轻量级进程沙箱中自动构造 Pytest 复现用例，动态验证漏洞是否真实存在；
-4. **根因分析与最小 Patch**：利用 DeepSeek-R1 强大的逻辑推理能力合成规范最小补丁，并执行完整回归测试确保业务功能不受损；
+4. **根因分析与最小 Patch**：利用 **DeepSeek-V4-Pro** 强大的深度推理思维链（Thinking Mode）合成规范最小补丁，并执行完整回归测试确保业务功能不受损；
 5. **双模交付**：支持作为独立 **CLI / GitHub Action** 自动提交修复 PR，同时作为 **DeepSeek Harness (`dsh`)** 原生技能即插即用。
 
 ---
@@ -57,7 +57,7 @@ SecAgent 改变了这一现状：
        └──────────┬──────────┘
                   ▼
        ┌─────────────────────┐
-       │    Fixer Agent      │ ◄─── DeepSeek-R1 合成最小化安全 Patch
+       │    Fixer Agent      │ ◄─── DeepSeek-V4-Pro 合成最小化安全 Patch
        └──────────┬──────────┘
                   ▼
        ┌─────────────────────┐
@@ -208,7 +208,7 @@ SecAgent 将传统的“告警生成器”升级为“**端到端自主安全研
 |---|---|---|
 | **海量噪音与告警疲劳** | 规则匹配产生海量误报，维护者精力被淹没 | 利用 DeepSeek 大模型结合项目架构与调用链，精准剔除死路径与不可达误报 |
 | **可达性难以证明** | 仅给出代码行告警，无法证明是否真实可被利用 | 在受控隔离沙箱中自动合成针对性 Pytest 复现用例，以可运行代码证明漏洞 |
-| **人工写 Patch 成本高** | 漏洞修复全靠人工深入排查根因并逐行手写补丁 | 基于 DeepSeek-R1 深度推理思维链，全自动合成遵循代码规范的最小补丁 |
+| **人工写 Patch 成本高** | 漏洞修复全靠人工深入排查根因并逐行手写补丁 | 基于 DeepSeek-V4-Pro 深度推理思维链，全自动合成遵循代码规范的最小补丁 |
 | **破坏既有业务风险** | 修复补丁容易破坏既有功能或引入次生缺陷 | 在沙箱中自动运行全仓原有测试套件进行严格回归验证，确保通过率 100% |
 | **工程化协同成本** | 扫描结果脱离现有工作流，沟通交割繁琐 | 原生输出标准 OASIS SARIF 2.1.0，并可全自动提交包含复现依据的 Pull Request |
 

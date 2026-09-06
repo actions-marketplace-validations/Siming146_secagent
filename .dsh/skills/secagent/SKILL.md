@@ -1,6 +1,6 @@
 ---
 name: secagent
-description: Autonomous security research and auto-patching agent for open-source repositories. Audits codebase, reduces false positives, executes dynamic sandbox verification, and generates minimal regression-tested fixes using DeepSeek-V3/R1.
+description: Autonomous security research and auto-patching agent for open-source repositories. Audits codebase, reduces false positives, executes dynamic sandbox verification, and generates minimal regression-tested fixes using DeepSeek-V4 (Flash & Pro).
 ---
 
 # SecAgent Skill for DeepSeek Harness (dsh)
@@ -26,7 +26,7 @@ secagent audit <repo_path> [--sarif <output.sarif>]
 ```
 
 ### 2. Full Autonomous Remediation Loop
-Scan, triage, generate dynamic verification test, execute in isolated sandbox, synthesize minimal patch with DeepSeek-R1, and run regression tests:
+Scan, triage, generate dynamic verification test, execute in isolated sandbox, synthesize minimal patch with DeepSeek-V4-Pro, and run regression tests:
 ```bash
 secagent fix <repo_path> [--dry-run]
 ```

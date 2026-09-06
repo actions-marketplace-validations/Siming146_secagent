@@ -7,7 +7,7 @@ This roadmap outlines the planned development and milestones for **SecAgent** as
 ## 🎯 Phase 1: MVP & Foundation (Current - Q3 2026) :white_check_mark:
 
 - [x] LangGraph StateGraph deterministic orchestration architecture.
-- [x] Multi-engine support for DeepSeek-Chat (V3) and DeepSeek-Reasoner (R1).
+- [x] Multi-engine support for DeepSeek-V4 (Flash & Pro Reasoning Engine).
 - [x] DeepSeek Harness (`dsh`) native skill package (`.dsh/skills/secagent/`).
 - [x] SAST candidate extraction via Bandit with false-positive filtering.
 - [x] Controlled lightweight subprocess sandbox with environment scrubbing & timeouts.

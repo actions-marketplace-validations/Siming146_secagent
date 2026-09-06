@@ -7,8 +7,8 @@ from secagent.config import Settings, get_settings
 def test_default_settings():
     settings = Settings()
     assert settings.deepseek_base_url == "https://api.deepseek.com"
-    assert settings.deepseek_chat_model == "deepseek-chat"
-    assert settings.deepseek_reasoner_model == "deepseek-reasoner"
+    assert settings.deepseek_chat_model == "deepseek-v4-flash"
+    assert settings.deepseek_reasoner_model == "deepseek-v4-pro"
     assert settings.sandbox_timeout_seconds == 60
 
 

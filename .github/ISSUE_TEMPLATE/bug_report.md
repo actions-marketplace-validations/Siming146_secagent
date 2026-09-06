@@ -22,7 +22,7 @@ A clear and concise description of what you expected to happen.
 **Environment:**
  - OS: [e.g. Ubuntu 22.04, Windows 11]
  - Python version: [e.g. 3.11.4]
- - Model: [e.g. deepseek-chat, deepseek-reasoner]
+ - Model: [e.g. deepseek-v4-pro, deepseek-v4-flash]
  - SecAgent version: [e.g. 0.1.0]
 
 **Additional context**

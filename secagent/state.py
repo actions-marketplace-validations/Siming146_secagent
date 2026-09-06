@@ -48,7 +48,7 @@ class VerifiedVulnerability(BaseModel):
 
 
 class PatchSolution(BaseModel):
-    """Synthesized code patch and rationale from DeepSeek-R1."""
+    """Synthesized code patch and rationale from DeepSeek-V4-Pro reasoning engine."""
 
     diff: str = Field(description="Unified diff format patch")
     explanation: str = Field(description="Technical explanation of the fix")

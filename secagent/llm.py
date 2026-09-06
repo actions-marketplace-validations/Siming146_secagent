@@ -1,4 +1,4 @@
-"""LLM client wrapper supporting DeepSeek-Chat and DeepSeek-Reasoner (R1)."""
+"""LLM client wrapper supporting DeepSeek-V4 (Flash & Pro Reasoning)."""
 
 import json
 import logging
@@ -12,7 +12,7 @@ logger = logging.getLogger("secagent.llm")
 
 
 class DeepSeekClient:
-    """Client for DeepSeek API with reasoning extraction and mock support."""
+    """Client for DeepSeek API with native reasoning extraction and mock support."""
 
     def __init__(
         self,
@@ -46,7 +46,7 @@ class DeepSeekClient:
         model: Optional[str] = None,
         temperature: float = 0.2,
     ) -> str:
-        """Standard chat completion using DeepSeek-Chat."""
+        """Standard chat completion using DeepSeek-V4-Flash."""
         model = model or self.chat_model
 
         if self.mock_mode or not self.client:
@@ -68,7 +68,7 @@ class DeepSeekClient:
         messages: list,
         model: Optional[str] = None,
     ) -> Tuple[str, str]:
-        """Call DeepSeek-Reasoner (R1), returning (reasoning_content, final_answer)."""
+        """Call DeepSeek reasoning model (DeepSeek-V4-Pro), returning (reasoning_content, final_answer)."""
         model = model or self.reasoner_model
 
         if self.mock_mode or not self.client:
@@ -76,16 +76,37 @@ class DeepSeekClient:
             return ("Mock reasoning trace analyzing root cause and code context...", mock_text)
 
         try:
-            response = self.client.chat.completions.create(
-                model=model,
-                messages=messages,
-            )
+            create_kwargs: Dict[str, Any] = {
+                "model": model,
+                "messages": messages,
+            }
+            # DeepSeek-V4 models support thinking configuration
+            if any(k in model.lower() for k in ("v4", "pro", "flash")):
+                create_kwargs["extra_body"] = {"thinking": {"type": "enabled"}}
+
+            try:
+                response = self.client.chat.completions.create(**create_kwargs)
+            except Exception:
+                # Fallback for standard or legacy endpoints without extra_body
+                response = self.client.chat.completions.create(
+                    model=model,
+                    messages=messages,
+                )
+
             choice = response.choices[0]
             reasoning = getattr(choice.message, "reasoning_content", "") or ""
             content = choice.message.content or ""
+
+            # Fallback: extract <think>...</think> tags if reasoning was embedded in content
+            if not reasoning and "<think>" in content and "</think>" in content:
+                think_match = re.search(r"<think>([\s\S]*?)</think>", content)
+                if think_match:
+                    reasoning = think_match.group(1).strip()
+                    content = re.sub(r"<think>[\s\S]*?</think>", "", content).strip()
+
             return reasoning, content
         except Exception as exc:
-            logger.error(f"DeepSeek-Reasoner API call failed: {exc}")
+            logger.error(f"DeepSeek-V4 reasoning API call failed: {exc}")
             raise
 
     def extract_json(self, text: str) -> Dict[str, Any]:

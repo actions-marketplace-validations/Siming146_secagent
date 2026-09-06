@@ -16,10 +16,10 @@ class Settings(BaseSettings):
         default="https://api.deepseek.com", alias="DEEPSEEK_BASE_URL"
     )
     deepseek_chat_model: str = Field(
-        default="deepseek-chat", alias="DEEPSEEK_CHAT_MODEL"
+        default="deepseek-v4-flash", alias="DEEPSEEK_CHAT_MODEL"
     )
     deepseek_reasoner_model: str = Field(
-        default="deepseek-reasoner", alias="DEEPSEEK_REASONER_MODEL"
+        default="deepseek-v4-pro", alias="DEEPSEEK_REASONER_MODEL"
     )
 
     # GitHub Integration
