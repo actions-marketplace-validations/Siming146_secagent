@@ -1,6 +1,6 @@
 # SecAgent Project Roadmap
 
-This roadmap outlines the planned development and milestones for **SecAgent** as part of our mission to deliver enterprise-grade autonomous security infrastructure for the open-source ecosystem, fully aligned with the **Codex for Open Source** program and **DeepSeek Harness** ecosystem.
+This roadmap outlines the planned development and milestones for **SecAgent** as part of our mission to deliver enterprise-grade autonomous security infrastructure for the modern open-source software ecosystem, powered by DeepSeek AI and native agent runtimes.
 
 ---
 

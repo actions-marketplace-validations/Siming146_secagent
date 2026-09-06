@@ -15,7 +15,7 @@ We are committed to providing a friendly, safe, and welcoming environment for al
 ## How Can I Contribute?
 
 ### 1. Reporting Bugs
-- Search the [Issues](https://github.com/your-org/secagent/issues) tracker to see if the issue has already been reported.
+- Search the [Issues](https://github.com/Siming146/secagent/issues) tracker to see if the issue has already been reported.
 - If not, create a new issue using our **Bug Report** template. Provide clear steps to reproduce and system details.
 
 ### 2. Suggesting Enhancements

@@ -58,7 +58,7 @@ def generate_sarif_report(
                     "driver": {
                         "name": "SecAgent",
                         "semanticVersion": tool_version,
-                        "informationUri": "https://github.com/your-org/secagent",
+                        "informationUri": "https://github.com/Siming146/secagent",
                         "rules": rules,
                     }
                 },

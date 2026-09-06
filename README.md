@@ -9,7 +9,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
 [![DeepSeek](https://img.shields.io/badge/Powered%20by-DeepSeek--V3%20%7C%20R1-4D6BFE.svg)](https://deepseek.com)
 [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-Native%20Skill-brightgreen.svg)](https://github.com/deepseek-ai/deepseek-harness)
-[![Codex for Open Source](https://img.shields.io/badge/Codex%20for%20Open%20Source-Aligned-orange.svg)](https://openai.com)
+[![SARIF 2.1.0](https://img.shields.io/badge/SARIF-2.1.0-orange.svg)](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
 [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -84,7 +84,7 @@ SecAgent 改变了这一现状：
 ### 1. 安装
 
 ```bash
-git clone https://github.com/siming146/secagent.git
+git clone https://github.com/Siming146/secagent.git
 cd secagent
 pip install -e .
 ```
@@ -162,7 +162,7 @@ jobs:
 
       - name: Install SecAgent
         run: |
-          pip install git+https://github.com/siming146/secagent.git
+          pip install git+https://github.com/Siming146/secagent.git
 
       - name: Run SecAgent Audit
         env:
@@ -194,20 +194,22 @@ python benchmark/run_benchmark.py
 
 ---
 
-## 🌟 与 Codex for Open Source / 开源维护者工作流的深度契合
+## 🌟 为什么选择 SecAgent？赋能开源维护者的闭环安全体系
 
-SecAgent 的核心目标不是制造一个简单的 AI 演示，而是直接解决开源项目核心维护者长期面临的实际负担：
+开源项目的核心维护者常常陷入“告警疲劳（Alert Fatigue）”：安全工具报告了海量潜在告警，但其中大量是死代码或已过滤的假阳性；真正的高危漏洞缺少复现 PoC，手写修复补丁耗时耗力，还容易引发次生 Bug。
 
-| 维护者核心痛点 | 传统方案的缺陷 | SecAgent 解决方案 (Codex for Open Source 核心工作流) |
+SecAgent 将传统的“告警生成器”升级为“**端到端自主安全研究员**”：
+
+| 维护者核心痛点 | 传统工具缺陷 (如传统静态扫描) | SecAgent 自主闭环解决方案 |
 |---|---|---|
-| **持续安全审查 (Security Review)** | 规则型告警产生海量误报，维护者无暇逐一甄别 | 利用 DeepSeek-V3 结合全仓上下文和调用链深度分析，过滤无用告警，仅聚焦高置信度缺陷 |
-| **可达性与漏洞复现 (Validation)** | SAST 发现告警后即停止，无法证明是否真实可利用 | 在受控隔离沙箱中自动合成防御性 Pytest 复现用例，动态验证漏洞是否可达 |
-| **代码修复与补丁编写 (Remediation)** | 维护者需投入大量时间人工分析根因并手写 Patch | 依靠 DeepSeek-R1 的强大推理思维链合成规范的最小化安全补丁 |
-| **回归测试保障 (Regression Testing)** | 担心安全补丁破坏既有业务功能或引入次生缺陷 | 自动在沙箱中执行全套项目原有测试，确保 100% 通过后才生成交付物 |
-| **自动化发布与审查 (PR & Gating)** | 手动提交繁琐，安全报告难与 CI/CD 工具链打通 | 输出标准 OASIS SARIF 2.1.0 报告对接 GitHub Code Scanning，并可全自动创建 PR 供维护者审阅 |
+| **海量噪音与告警疲劳** | 规则匹配产生海量误报，维护者精力被淹没 | 利用 DeepSeek 大模型结合项目架构与调用链，精准剔除死路径与不可达误报 |
+| **可达性难以证明** | 仅给出代码行告警，无法证明是否真实可被利用 | 在受控隔离沙箱中自动合成针对性 Pytest 复现用例，以可运行代码证明漏洞 |
+| **人工写 Patch 成本高** | 漏洞修复全靠人工深入排查根因并逐行手写补丁 | 基于 DeepSeek-R1 深度推理思维链，全自动合成遵循代码规范的最小补丁 |
+| **破坏既有业务风险** | 修复补丁容易破坏既有功能或引入次生缺陷 | 在沙箱中自动运行全仓原有测试套件进行严格回归验证，确保通过率 100% |
+| **工程化协同成本** | 扫描结果脱离现有工作流，沟通交割繁琐 | 原生输出标准 OASIS SARIF 2.1.0，并可全自动提交包含复现依据的 Pull Request |
 
 > [!NOTE]
-> 本项目的“**静态线索 ➔ 大模型甄别 ➔ 隔离验证 ➔ 补丁合成 ➔ 回归测试 ➔ 提 PR**”闭环体系与 OpenAI **Codex Security** 工作流高度契合，专为赋能开源生态维护者而打造。
+> 本项目专注于“**静态线索 ➔ 语义去噪 ➔ 沙箱动态验证 ➔ 最小补丁合成 ➔ 回归测试 ➔ 自动 PR**”六位一体的确定性闭环，旨在为开源生态提供开箱即用（Batteries-Included）、零误扰的工业级自动化安全防护。
 
 ---
 

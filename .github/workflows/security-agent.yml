@@ -26,7 +26,7 @@ jobs:
 
       - name: Install SecAgent
         run: |
-          pip install git+https://github.com/your-org/secagent.git
+          pip install git+https://github.com/Siming146/secagent.git
 
       - name: Run SecAgent Scan
         env:

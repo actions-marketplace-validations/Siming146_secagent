@@ -76,7 +76,7 @@ def generate_markdown_summary(
 
     lines.extend([
         "---",
-        "*Generated automatically by [SecAgent](https://github.com/your-org/secagent)*",
+        "*Generated automatically by [SecAgent](https://github.com/Siming146/secagent)*",
     ])
 
     return "\n".join(lines)
