@@ -5,7 +5,7 @@
 **面向开源生态的 AI 应用安全研究与自动修复智能体**  
 *An Autonomous AI Security Agent for Open Source Ecosystems — Powered by DeepSeek & LangGraph*
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
 [![DeepSeek](https://img.shields.io/badge/Powered%20by-DeepSeek--V3%20%7C%20R1-4D6BFE.svg)](https://deepseek.com)
 [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-Native%20Skill-brightgreen.svg)](https://github.com/deepseek-ai/deepseek-harness)
@@ -228,5 +228,5 @@ SecAgent 的核心目标不是制造一个简单的 AI 演示，而是直接解�
 
 ## 📄 开源许可证
 
-本项目基于 [Apache License 2.0](LICENSE) 协议开源。
+本项目基于 [MIT License](LICENSE) 协议开源。
 

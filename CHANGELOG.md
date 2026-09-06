@@ -19,4 +19,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Rich CLI Interface**: Developed Typer-based CLI providing `secagent audit`, `secagent fix`, and `secagent version`.
 - **Benchmark Evaluation Harness**: Added realistic vulnerable repository target (`benchmark/sample_vulnerable_repo`) and test runner evaluating detection rate, false positive rejection, dynamic verification, and patch pass rate.
 - **CI/CD Automation**: Added GitHub Actions workflows for continuous integration across Linux, Windows, and macOS, alongside PR security scanning action templates.
-- **Open Source Governance**: Added Contributor Covenant Code of Conduct, Security policy, Contributing guide, and Apache 2.0 license.
+- **Open Source Governance**: Added Contributor Covenant Code of Conduct, Security policy, Contributing guide, and MIT license.

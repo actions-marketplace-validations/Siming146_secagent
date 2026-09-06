@@ -5,7 +5,7 @@ Powered by DeepSeek & LangGraph.
 
 __version__ = "0.1.0"
 __author__ = "Open Source Security Agent Contributors"
-__license__ = "Apache-2.0"
+__license__ = "MIT"
 
 from secagent.config import Settings, get_settings
 from secagent.state import AgentState, VulnerabilityCandidate, VerifiedVulnerability
