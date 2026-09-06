@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use SecAgent in your research or project security workflows, please cite it as below."
+authors:
+  - family-names: "Siming"
+    given-names: "146"
+    alias: "Siming146"
+title: "SecAgent: Autonomous AI Security Agent for Open Source Ecosystems"
+version: 0.1.0
+date-released: 2026-09-06
+url: "https://github.com/Siming146/secagent"
+repository-code: "https://github.com/Siming146/secagent"
+license: MIT
+keywords:
+  - "ai-security"
+  - "deepseek"
+  - "langgraph"
+  - "vulnerability-repair"
+  - "automated-patching"
+  - "appsec"
