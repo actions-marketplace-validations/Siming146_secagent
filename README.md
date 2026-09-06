@@ -13,6 +13,10 @@
 [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
+<br/>
+
+<img src="assets/secagent_banner.jpg" alt="SecAgent Architecture & Workflow" width="880" />
+
 </div>
 
 ---
