@@ -37,7 +37,7 @@ dependencies = [
     "bandit>=1.7.5",
     "gitpython>=3.1.30",
     "pytest>=7.0.0",
-    "python-dotenv>=1.0.0",
+    "python-dotenv>=1.2.3",
 ]
 
 [project.optional-dependencies]
