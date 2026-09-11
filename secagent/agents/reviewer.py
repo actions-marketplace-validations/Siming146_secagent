@@ -30,6 +30,12 @@ def reviewer_node(state: AgentState) -> Dict[str, Any]:
         patch_diff=patch_diff,
         patch_explanation=patch_exp,
         regression_passed=reg_passed,
+        poc_red_passed=state.get("poc_red_passed", False),
+        poc_red_output=state.get("poc_red_output"),
+        poc_blue_passed=state.get("poc_blue_passed", False),
+        poc_blue_output=state.get("poc_blue_output"),
+        reproduction_test_code=state.get("reproduction_test_code"),
+        poc_file_path=state.get("poc_file_path"),
     )
 
     # Generate SARIF Report

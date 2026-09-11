@@ -3,7 +3,7 @@
 Powered by DeepSeek & LangGraph.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Open Source Security Agent Contributors"
 __license__ = "MIT"
 

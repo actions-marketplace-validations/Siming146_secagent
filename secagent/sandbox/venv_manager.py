@@ -40,10 +40,15 @@ class SandboxVenvManager:
         test_code: str,
         test_filename: str = "test_secagent_repro.py",
         timeout: int = 30,
+        persist: bool = False,
     ) -> CommandResult:
-        """Write a temporary reproduction pytest file into repo_path, run it, and clean up."""
+        """Write a reproduction pytest file into repo_path, run it, and optionally clean up."""
         repo_abs = os.path.abspath(repo_path)
         test_file_path = os.path.join(repo_abs, test_filename)
+
+        parent_dir = os.path.dirname(test_file_path)
+        if parent_dir and not os.path.exists(parent_dir):
+            os.makedirs(parent_dir, exist_ok=True)
 
         try:
             with open(test_file_path, "w", encoding="utf-8") as f:
@@ -55,7 +60,7 @@ class SandboxVenvManager:
             return result
 
         finally:
-            if os.path.exists(test_file_path):
+            if not persist and os.path.exists(test_file_path):
                 try:
                     os.remove(test_file_path)
                 except OSError as err:

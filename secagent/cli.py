@@ -118,10 +118,19 @@ def fix(
     with console.status("[bold green]Executing full remediation pipeline..."):
         final_state = graph.invoke(initial_state)
 
+    if final_state.get("poc_red_passed"):
+        console.print("[bold green]✓ Red-Phase:[/bold green] Successfully proven vulnerability with Fail-to-Pass PoC.")
+    elif final_state.get("is_verified") is False:
+        console.print("[bold yellow]ℹ Red-Phase:[/bold yellow] Could not confirm vulnerability exploitability.")
+
     if final_state.get("patch_applied"):
-        console.print("[bold green]✓ Patch successfully applied to codebase![/bold green]")
+        console.print("[bold green]✓ Patch applied to target codebase.[/bold green]")
+        if final_state.get("poc_blue_passed"):
+            console.print("[bold green]✓ Blue-Phase:[/bold green] Defense contract PoC PASSED on patched code.")
         if final_state.get("regression_test_passed"):
-            console.print("[bold green]✓ Regression test suite PASSED.[/bold green]")
+            console.print("[bold green]✓ Regression test suite PASSED (100% regression-free).[/bold green]")
+            if final_state.get("poc_file_path"):
+                console.print(f"[dim]📦 Permanent test saved: {final_state.get('poc_file_path')}[/dim]")
             if create_pr:
                 commit_changes(repo_path, "fix(secagent): remediate verified security vulnerability")
                 if final_state.get("pr_url"):

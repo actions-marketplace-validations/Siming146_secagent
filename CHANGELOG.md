@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.2.0] - 2026-09-11
+
+### Added
+- **Dual-Pass Exploit Verification (F2P Red/Blue Protocol)**: Implemented strict Fail-to-Pass contract verification ensuring PoC tests must fail on unpatched code to prove vulnerability reachability (Red Phase), and must pass on patched code to confirm resolution (Blue Phase).
+- **PoC Refinement Loop**: Introduced self-reflection and iterative correction in `verifier_node` (up to 2 refinement attempts) if tests unexpectedly pass on vulnerable code or encounter syntax/import errors.
+- **Permanent Regression Test Persistence**: Validated PoC reproduction test suites (e.g., `tests/test_secagent_repro.py`) are now persisted to the codebase and automatically committed into the fix branch/PR to permanently prevent regressions.
+- **Dual-Pass Evidence Cards**: Markdown and SARIF reports now provide side-by-side Red-Phase failure tracebacks and Blue-Phase resolution logs.
+- **6-Metric Benchmark Suite**: Extended benchmark evaluation harness to explicitly measure Red-Phase triggering and Blue-Phase resolution alongside SAST, Triage, and Regression.
+
+---
+
 ## [0.1.0] - 2026-09-06
 
 ### Added

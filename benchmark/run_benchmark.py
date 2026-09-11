@@ -93,6 +93,10 @@ def run_benchmark(mock_llm: bool = False):
     patch_diff = final_state.get("patch_diff")
     reg_output = final_state.get("regression_test_output", "")
 
+    poc_red_passed = final_state.get("poc_red_passed", False)
+    poc_blue_passed = final_state.get("poc_blue_passed", False)
+    poc_file_path = final_state.get("poc_file_path")
+
     if not patch_applied or not regression_passed:
         console.print(f"[dim yellow]Debug: patch_applied={patch_applied}, reg_passed={regression_passed}, patch_diff_len={len(patch_diff or '')}[/dim yellow]")
         if reg_output:
@@ -117,15 +121,23 @@ def run_benchmark(mock_llm: bool = False):
     m3_pass = len(triaged_vulns) >= 1
     table.add_row("3. Real Vuln Detection", ">= 1 true positive", f"{len(triaged_vulns)} confirmed", "[green]PASS[/green]" if m3_pass else "[red]FAIL[/red]")
 
-    # Metric 4: Dynamic Sandbox Verification
-    table.add_row("4. Sandbox Verification", "Reproduced safely", "Verified" if is_verified else "Failed", "[green]PASS[/green]" if is_verified else "[yellow]SKIP/UNVERIFIED[/yellow]")
+    # Metric 4: Red-Phase Provable Trigger (Fail-to-Pass initial failure)
+    table.add_row("4. Red-Phase Trigger", "PoC triggers flaw (F2P)", "Proven" if poc_red_passed else "Failed", "[green]PASS[/green]" if poc_red_passed else "[red]FAIL[/red]")
 
-    # Metric 5: Patch & Regression Test
-    m5_pass = patch_applied and regression_passed
-    table.add_row("5. Patch & Regression", "Pass project tests", "Passed" if m5_pass else "Incomplete", "[green]PASS[/green]" if m5_pass else "[yellow]UNVERIFIED[/yellow]")
+    # Metric 5: Blue-Phase Patch Resolution (PoC passes after patch)
+    table.add_row("5. Blue-Phase Resolution", "PoC passes after patch", "Resolved" if poc_blue_passed else "Failed", "[green]PASS[/green]" if poc_blue_passed else "[red]FAIL[/red]")
+
+    # Metric 6: Full Regression Suite Integrity
+    table.add_row("6. Regression Suite", "Zero breaking changes", "100% Passed" if regression_passed else "Failed", "[green]PASS[/green]" if regression_passed else "[red]FAIL[/red]")
 
     console.print(table)
-    console.print("\n[bold green]Benchmark evaluation completed successfully![/bold green]")
+    all_passed = m1_pass and m2_pass and m3_pass and poc_red_passed and poc_blue_passed and regression_passed
+    if all_passed:
+        console.print(f"\n[bold green]✓ Benchmark evaluation completed successfully! (6/6 metrics PASSED)[/bold green]")
+        if poc_file_path:
+            console.print(f"[dim]📦 Permanent test persisted at: {poc_file_path}[/dim]")
+    else:
+        console.print("\n[bold yellow]⚠️ Benchmark evaluation finished with issues.[/bold yellow]")
 
 
 if __name__ == "__main__":

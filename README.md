@@ -74,7 +74,7 @@ SecAgent 改变了这一现状：
 ## ✨ 核心特性 (Key Features)
 
 * **精确去误报 (Noise Reduction)**：深度理解函数边界、中间校验器与输入过滤逻辑，精准排除无法利用的虚假告警。
-* **可证伪验证 (Provable Validation)**：不信口雌黄（No Hallucination），对每个高置信度漏洞自动生成复现测试并运行校验。
+* **双向可证伪验证 (Dual-Pass F2P Verification)**：基于严格的 Fail-to-Pass 契约协议，补丁前必须通过红方验证（用例必红证明漏洞真实可达），补丁后必须通过蓝方验证（用例必绿证明漏洞被根除），彻底消除大模型测试幻觉，并将防御测试永久固化入库。
 * **零破坏性 Patch (Safe Remediation)**：在合入前必须通过仓库原有的测试套件，杜绝补丁引发次生缺陷。
 * **双模生态支持**：
   * **Standalone**：命令行 `secagent audit` / `secagent fix` 或 GitHub Actions CI 自动流水线。

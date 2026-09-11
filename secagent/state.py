@@ -73,16 +73,22 @@ class AgentState(TypedDict, total=False):
     false_positives: List[Dict[str, Any]]
     current_target_vulnerability: Optional[Dict[str, Any]]
 
-    # Verification & Sandbox Phase
+    # Verification & Dual-Pass Sandbox Phase
     reproduction_test_code: Optional[str]
     reproduction_test_path: Optional[str]
     is_verified: bool
     verification_output: str
+    poc_red_passed: bool
+    poc_red_output: str
+    poc_refinement_attempts: int
+    poc_file_path: Optional[str]
 
     # Remediation Phase
     patch_diff: Optional[str]
     patch_explanation: Optional[str]
     patch_applied: bool
+    poc_blue_passed: bool
+    poc_blue_output: str
     regression_test_passed: bool
     regression_test_output: str
     retry_count: int

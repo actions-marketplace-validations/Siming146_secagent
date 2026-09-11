@@ -97,18 +97,43 @@ Reproduction Test:
         # Apply patch to target file
         applied_ok = apply_patch_to_file(repo_path, filename, diff, file_content)
 
-        # Run project tests to ensure no regressions
+        poc_file = state.get("poc_file_path") or state.get("reproduction_test_path")
+        poc_blue_passed = False
+        poc_blue_output = ""
+
+        if applied_ok and poc_file:
+            # Step 1: Blue-phase verification (PoC test must now PASS)
+            poc_res = sandbox.run_pytest(repo_path, test_args=[poc_file], timeout=30)
+            poc_blue_passed = poc_res.is_success
+            poc_blue_output = f"Exit: {poc_res.exit_code}\n{poc_res.stdout}\n{poc_res.stderr}"
+            logger.info(f"Blue-phase PoC verification exit code: {poc_res.exit_code}, passed: {poc_blue_passed}")
+        elif applied_ok:
+            poc_blue_passed = True
+            poc_blue_output = "No PoC test file to verify."
+
+        # Step 2: Project regression test verification (All existing tests must pass)
         reg_result = sandbox.run_pytest(repo_path, timeout=60)
         reg_passed = reg_result.is_success
+        combined_passed = applied_ok and poc_blue_passed and reg_passed
 
-        logger.info(f"Patch applied: {applied_ok}, Regression tests passed: {reg_passed}")
+        combined_output = ""
+        if not poc_blue_passed:
+            combined_output += f"PoC Blue-Phase Failed (Patch did not resolve flaw):\n{poc_blue_output}\n"
+        if not reg_passed:
+            combined_output += f"Regression Tests Failed:\nExit: {reg_result.exit_code}\n{reg_result.stdout}\n{reg_result.stderr}\n"
+        if combined_passed:
+            combined_output = f"All tests passed!\nPoC Blue-Phase: PASSED\nRegression: Exit {reg_result.exit_code}"
+
+        logger.info(f"Patch applied: {applied_ok}, PoC Blue-Phase: {poc_blue_passed}, Regression: {reg_passed}")
 
         return {
             "patch_diff": diff,
             "patch_explanation": explanation,
             "patch_applied": applied_ok,
-            "regression_test_passed": reg_passed,
-            "regression_test_output": f"Exit: {reg_result.exit_code}\n{reg_result.stdout}\n{reg_result.stderr}",
+            "poc_blue_passed": poc_blue_passed,
+            "poc_blue_output": poc_blue_output,
+            "regression_test_passed": combined_passed,
+            "regression_test_output": combined_output,
             "retry_count": retry_count + 1,
         }
 

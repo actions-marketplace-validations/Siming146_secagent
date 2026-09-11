@@ -163,18 +163,15 @@ class DeepSeekClient:
             })
 
         # 2. Verifier Agent Prompt
-        if "verification specialist" in content or "reproduction test function" in content:
+        if "verification specialist" in content or "reproduction test function" in content or "fail-to-pass" in content:
             return (
                 "```python\n"
                 "import pytest\n"
                 "from app import execute_diagnostics\n\n"
                 "def test_command_injection_reproduction():\n"
-                "    # Verifies that execute_diagnostics executes without timing out\n"
-                "    try:\n"
-                "        res = execute_diagnostics('127.0.0.1; echo injected')\n"
-                "        assert 'injected' in res or len(res) > 0\n"
-                "    except ValueError:\n"
-                "        pass\n"
+                "    \"\"\"Fail-to-Pass defense contract test: Expects ValueError when metacharacters are passed.\"\"\"\n"
+                "    with pytest.raises(ValueError):\n"
+                "        execute_diagnostics('127.0.0.1; echo injected')\n"
                 "```"
             )
 
