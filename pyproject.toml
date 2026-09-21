@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "secagent"
-version = "0.1.0"
+version = "0.2.0"
 description = "Autonomous AI Security Agent for Open Source Ecosystems powered by DeepSeek & LangGraph"
 readme = "README.md"
 authors = [

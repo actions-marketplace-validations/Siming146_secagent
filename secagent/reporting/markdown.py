@@ -11,6 +11,12 @@ def generate_markdown_summary(
     patch_diff: Optional[str] = None,
     patch_explanation: Optional[str] = None,
     regression_passed: bool = False,
+    poc_red_passed: bool = False,
+    poc_red_output: Optional[str] = None,
+    poc_blue_passed: bool = False,
+    poc_blue_output: Optional[str] = None,
+    reproduction_test_code: Optional[str] = None,
+    poc_file_path: Optional[str] = None,
 ) -> str:
     """Generate a clean, professional markdown summary of the audit and remediation."""
     lines = [
@@ -22,7 +28,7 @@ def generate_markdown_summary(
         "",
         f"- **Confirmed High-Value Vulnerabilities:** {len(triaged)}",
         f"- **Filtered False Positives (Noise Reduction):** {len(false_positives)}",
-        f"- **Dynamic Sandbox Verification:** {'✅ Verified Reproducible' if is_verified else '⚠️ Unverified / Failed to reproduce'}",
+        f"- **Dual-Pass Verification (Red ➔ Blue):** {'✅ 100% Provably Verified & Resolved' if (poc_red_passed and poc_blue_passed) else ('⚠️ Partial / Unverified' if is_verified else '❌ Not Verified')}",
         f"- **Patch Regression Testing:** {'✅ All Tests Passed' if regression_passed else '⚠️ Incomplete / Tests Failed'}",
         "",
     ]
@@ -57,6 +63,33 @@ def generate_markdown_summary(
             reason = fp.get("reasoning", "No exploit path")
             lines.append(f"- **`{cid}`**: {reason}")
         lines.extend(["", "</details>", ""])
+
+    if reproduction_test_code or poc_red_passed:
+        lines.extend([
+            "## 🔬 Dual-Pass Provable Verification (Red/Blue Protocol)",
+            "",
+            "| Phase | Evaluation Protocol | Status |",
+            "|---|---|---|",
+            f"| 🔴 **Red Phase (Pre-Patch)** | Run defense contract test on vulnerable code (Expect Fail) | {'✅ **PASS** (Triggered Vulnerability)' if poc_red_passed else '⚠️ Unconfirmed'} |",
+            f"| 🟢 **Blue Phase (Post-Patch)** | Re-run same test against patched code (Expect Pass) | {'✅ **PASS** (Flaw Resolved)' if poc_blue_passed else '❌ Failed'} |",
+            f"| 🛡️ **Regression Suite** | Run project baseline test suite | {'✅ **PASS** (Zero Side-Effects)' if regression_passed else '❌ Regressions Detected'} |",
+            "",
+        ])
+        if poc_file_path:
+            lines.append(f"📦 **Permanent Regression Test:** Persisted as `{poc_file_path}` to protect against future regressions.\n")
+
+        if reproduction_test_code:
+            lines.extend([
+                "<details>",
+                "<summary>🧪 <b>View Fail-to-Pass Reproduction Test Code</b></summary>",
+                "",
+                "```python",
+                reproduction_test_code.strip(),
+                "```",
+                "",
+                "</details>",
+                "",
+            ])
 
     if target_vuln and patch_diff:
         lines.extend([
